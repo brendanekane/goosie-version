@@ -33,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
+    // if the below scope isn't set up right you will get an error
+    // Cookie “token” has been rejected because it is already expired. as well as an error - Error: Invalid argument
+    // make sure you have set up the scope properly
     {
       defaultScope: {
         attributes: {
