@@ -5,9 +5,4 @@ const express = require('express'),
 // namespace the backend routes under api
 router.use('/api', apiRouter);
 
-router.get('/hello/world', (req, res) => {
-  res.cookie('XSRF-TOKEN', req.csrfToken());
-  res.send('Hello World!');
-});
-
 module.exports = router;
