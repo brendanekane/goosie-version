@@ -1,7 +1,20 @@
 const router = require('express').Router(),
   asyncHandler = require('express-async-handler'),
+  { check } = require('express-validator'),
   { setTokenCookie, restoreUser } = require('../../utils/auth'),
+  { handleValidationErrors } = require('../../utils/validation'),
   { User } = require('../../db/models');
+
+const validateLogin = [
+  check('credential')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Please provide a valid email or username'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a password'),
+  handleValidationErrors,
+];
 
 router.get('/', restoreUser, (req, res) => {
   const { user } = req;
@@ -15,6 +28,7 @@ router.get('/', restoreUser, (req, res) => {
 
 router.post(
   '/',
+  validateLogin,
   asyncHandler(async (req, res, next) => {
     console.log(User, 'hello');
     const { credential, password } = req.body;
