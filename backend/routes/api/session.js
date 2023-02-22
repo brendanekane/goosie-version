@@ -16,21 +16,21 @@ const validateLogin = [
   handleValidationErrors,
 ];
 
-router.get('/', restoreUser, (req, res) => {
+router.get('/', restoreUser, async (req, res) => {
   const { user } = req;
-
   if (user) {
     return res.json({
       user: user.toSafeObject(),
     });
-  } else return res.json();
+  } else {
+    return res.json({});
+  }
 });
 
 router.post(
   '/',
   validateLogin,
   asyncHandler(async (req, res, next) => {
-    console.log(User, 'hello');
     const { credential, password } = req.body;
     const user = await User.login({ credential, password });
 
@@ -43,7 +43,6 @@ router.post(
     }
 
     await setTokenCookie(res, user);
-
     return res.json(user);
   })
 );

@@ -9,27 +9,24 @@ const LoginFormPage = () => {
     sessionUser = useSelector((state) => state.session.user),
     [credentialInput, setCredentialInput] = useState(''),
     [passwordInput, setPasswordInput] = useState(''),
-    [formResults, setFormResults] = useState({}),
     firstUpdate = useRef(true);
-
-  useLayoutEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-    } else {
-      dispatch(loginAndSetSession(formResults));
-    }
-  }, [formResults]);
 
   if (sessionUser) return <Redirect to="/" />;
 
+  const reset = () => {
+    setCredentialInput('');
+    setPasswordInput('');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormResults((oldForm) => {
-      return (oldForm = {
-        credential: credentialInput,
-        password: passwordInput,
-      });
-    });
+    const formInput = {
+      credential: credentialInput,
+      password: passwordInput,
+    };
+
+    dispatch(loginAndSetSession(formInput));
+    reset();
   };
 
   return (
