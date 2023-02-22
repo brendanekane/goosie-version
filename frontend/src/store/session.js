@@ -32,12 +32,12 @@ export const loginAndSetSession = (user) => async (dispatch) => {
     method: 'POST',
     body: JSON.stringify(user),
   });
-
+  console.log('login');
   if (response.ok) {
     const user = await response.json();
     dispatch(setSession(user));
     return user;
-  }
+  } else return { user: null };
 };
 
 export const signupAndSetSession = (user) => async (dispatch) => {
@@ -45,22 +45,32 @@ export const signupAndSetSession = (user) => async (dispatch) => {
     method: 'POST',
     body: JSON.stringify(user),
   });
-
+  console.log('signup');
   if (response.ok) {
     const user = await response.json();
     dispatch(setSession(user));
     return user;
-  }
+  } else return { user: null };
 };
 
 export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch('/api/session');
-  const data = await response.json();
+  let data = await response.json();
+  if (data.user === undefined) data.user = null;
   dispatch(setSession(data.user));
   return response;
 };
 
-export const logoutAndRemoveSession = () => async (dispatch) => {};
+export const logoutAndRemoveSession = () => async (dispatch) => {
+  const response = await csrfFetch('/api/session', {
+    method: 'DELETE',
+  });
+
+  if (response.ok) {
+    dispatch(removeSession());
+    return response;
+  }
+};
 
 const initialState = { user: null };
 
@@ -71,6 +81,7 @@ const sessionReducer = (state = initialState, action) => {
       newState.user = action.user;
       return newState;
     case REMOVE_SESSION:
+      console.log('hello');
       newState.user = null;
       return newState;
     default:
