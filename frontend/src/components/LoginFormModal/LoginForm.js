@@ -1,17 +1,12 @@
-import { useState, useLayoutEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { loginAndSetSession } from '../../store/session';
-import { Redirect } from 'react-router-dom';
 import './LoginForm.css';
 
-const LoginFormPage = () => {
+const LoginForm = () => {
   const dispatch = useDispatch(),
-    sessionUser = useSelector((state) => state.session.user),
     [credentialInput, setCredentialInput] = useState(''),
-    [passwordInput, setPasswordInput] = useState(''),
-    firstUpdate = useRef(true);
-
-  if (sessionUser) return <Redirect to="/" />;
+    [passwordInput, setPasswordInput] = useState('');
 
   const reset = () => {
     setCredentialInput('');
@@ -52,4 +47,4 @@ const LoginFormPage = () => {
   );
 };
 
-export default LoginFormPage;
+export default LoginForm;

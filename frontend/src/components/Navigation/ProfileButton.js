@@ -34,8 +34,8 @@ const ProfileButton = () => {
 
   return (
     <>
-      <div className="profile-icon-container" onClick={handleIconClick}>
-        <i className="fa-solid fa-user"></i>
+      <div className="profile-icon-container">
+        <i className="fa-solid fa-user" onClick={handleIconClick}></i>
       </div>
       {dropdown}
     </>
