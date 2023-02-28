@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
           len: [3, 64],
         },
       },
-      show_id: {
+      showId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -18,11 +18,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Song',
     }
   );
   Song.associate = function (models) {
-    Song.belongsTo(models.Show);
+    Song.belongsTo(models.Show, { foreignKey: 'showId' });
+    Song.hasMany(models.Vote, {
+      foreignKey: 'songId',
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
   };
   return Song;
 };

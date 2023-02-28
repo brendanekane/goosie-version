@@ -56,12 +56,14 @@ const showSongs = [
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     for (let i = 0; i < showSongs.length; i++) {
-      const show = await Show.findOne({ where: { date: '2022-02-09' } }),
+      const show = await Show.findOne({
+          where: { date: '2022-02-09' },
+          include: Song,
+        }),
         song = showSongs[i];
-
       await Song.create({
         title: song.title,
-        show_id: show.id,
+        showId: show.id,
         notes: song.notes,
       });
     }
@@ -72,9 +74,11 @@ module.exports = {
       const show = await Show.findOne({ where: { date: '2022-02-09' } }),
         song = showSongs[i];
       await Song.destroy({
-        title: song.title,
-        show_id: show.id,
-        notes: song.notes,
+        where: {
+          title: song.title,
+          showId: show.id,
+          notes: song.notes,
+        },
       });
     }
   },

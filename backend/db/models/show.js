@@ -22,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Show.associate = function (models) {
-    Show.hasMany(models.Song);
+    Show.hasMany(models.Song, {
+      foreignKey: 'showId',
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
   };
   return Show;
 };
