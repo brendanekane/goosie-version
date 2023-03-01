@@ -13,6 +13,16 @@ const addShow = (show) => ({
   show,
 });
 
+export const getOneShow = (id) => async (dispatch) => {
+  const response = await fetch(`/api/shows/${id}`);
+
+  if (response.ok) {
+    const show = await response.json();
+    dispatch(loadAllShows([show]));
+    return show;
+  }
+};
+
 export const getAllShows = () => async (dispatch) => {
   const response = await fetch('/api/shows');
 

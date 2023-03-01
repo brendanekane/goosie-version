@@ -32,7 +32,7 @@ export const loginAndSetSession = (user) => async (dispatch) => {
     method: 'POST',
     body: JSON.stringify(user),
   });
-  console.log('login');
+
   if (response.ok) {
     const user = await response.json();
     dispatch(setSession(user));
@@ -45,7 +45,7 @@ export const signupAndSetSession = (user) => async (dispatch) => {
     method: 'POST',
     body: JSON.stringify(user),
   });
-  console.log('signup');
+
   if (response.ok) {
     const user = await response.json();
     dispatch(setSession(user));
@@ -81,7 +81,6 @@ const sessionReducer = (state = initialState, action) => {
       newState.user = action.user;
       return newState;
     case REMOVE_SESSION:
-      console.log('hello');
       newState.user = null;
       return newState;
     default:

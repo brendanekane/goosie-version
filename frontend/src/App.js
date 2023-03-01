@@ -6,6 +6,7 @@ import SignupFormPage from './components/SignupFormPage';
 import ShowsIndex from './components/Shows';
 import AddShowForm from './components/AddShowForm';
 import Navigation from './components/Navigation';
+import ShowPage from './components/ShowPage';
 import * as sessionActions from './store/session';
 
 const App = () => {
@@ -32,6 +33,9 @@ const App = () => {
           </Route>
           <Route exact path="/new-show">
             <AddShowForm />
+          </Route>
+          <Route path={`/shows/:id`}>
+            <ShowPage />
           </Route>
         </Switch>
       )}
