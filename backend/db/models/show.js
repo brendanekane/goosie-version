@@ -10,6 +10,13 @@ module.exports = (sequelize, DataTypes) => {
           len: [3, 64],
         },
       },
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [3, 64],
+        },
+      },
       date: {
         type: DataTypes.DATEONLY,
         allowNull: false,

@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      location: {
+        type: Sequelize.STRING(64),
+        allowNull: false,
+      },
       venue: {
         type: Sequelize.STRING(64),
         allowNull: false,

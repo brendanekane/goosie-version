@@ -2,10 +2,10 @@
 
 const { Show, Song } = require('../models');
 
-const showSongs = [
+const show1Songs = [
   {
     title: 'Drive',
-    notes: '',
+    notes: 'set 1 opener',
   },
   {
     title: 'Gun Street Girl',
@@ -29,7 +29,7 @@ const showSongs = [
   },
   {
     title: 'Bob Don',
-    notes: '',
+    notes: 'set 2 opener',
   },
   {
     title: 'Echo of a Rose',
@@ -53,14 +53,69 @@ const showSongs = [
   },
 ];
 
+const show2Songs = [
+  {
+    title: 'Earthling or Alien?',
+    notes: 'set 1 opener',
+  },
+  {
+    title: 'Caution',
+    notes: 'Bob Marley cover',
+  },
+  {
+    title: 'The Whales',
+    notes: '',
+  },
+  {
+    title: 'Rosewood Heart',
+    notes: '',
+  },
+  {
+    title: "The Old Man's Boat",
+    notes: 'set 1 closer',
+  },
+  {
+    title: 'Yeti',
+    notes: 'set 2 opener',
+  },
+  {
+    title: 'AUATC',
+    notes: 'Bon Iver cover',
+  },
+  {
+    title: 'Arrow',
+    notes: 'Arise',
+  },
+  {
+    title: 'Arcadia',
+    notes: 'set 2 closer',
+  },
+  {
+    title: 'Disco Inferno',
+    notes: 'The Trammps cover, encore',
+  },
+];
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    for (let i = 0; i < showSongs.length; i++) {
+    for (let i = 0; i < show1Songs.length; i++) {
       const show = await Show.findOne({
           where: { date: '2022-02-09' },
           include: Song,
         }),
-        song = showSongs[i];
+        song = show1Songs[i];
+      await Song.create({
+        title: song.title,
+        showId: show.id,
+        notes: song.notes,
+      });
+    }
+    for (let i = 0; i < show2Songs.length; i++) {
+      const show = await Show.findOne({
+          where: { date: '2022-02-10' },
+          include: Song,
+        }),
+        song = show2Songs[i];
       await Song.create({
         title: song.title,
         showId: show.id,
@@ -70,9 +125,20 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    for (let i = 0; i < showSongs.length; i++) {
+    for (let i = 0; i < show1Songs.length; i++) {
       const show = await Show.findOne({ where: { date: '2022-02-09' } }),
-        song = showSongs[i];
+        song = show1Songs[i];
+      await Song.destroy({
+        where: {
+          title: song.title,
+          showId: show.id,
+          notes: song.notes,
+        },
+      });
+    }
+    for (let i = 0; i < show2Songs.length; i++) {
+      const show = await Show.findOne({ where: { date: '2022-02-10' } }),
+        song = show2Songs[i];
       await Song.destroy({
         where: {
           title: song.title,

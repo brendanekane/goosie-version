@@ -11,11 +11,31 @@ router.get(
 );
 
 router.get(
+  '/:id',
+  asyncHandler(async (req, res) => {
+    const { id } = req.params,
+      show = await Show.findByPk(id);
+
+    res.json(show);
+  })
+);
+
+router.get(
   '/:id/songs',
   asyncHandler(async (req, res) => {
     const { id } = req.params,
       show = await Show.findByPk(id),
-      songs = await show.getSongs();
+      songs = await show.getSongs(),
+      votes = await Promise.all(
+        songs.map(async (song) => {
+          const songVotes = await song.getVotes();
+          return songVotes;
+        })
+      );
+
+    songs.forEach((song, idx) => {
+      song.dataValues.votes = votes[idx];
+    });
 
     res.json(songs);
   })
@@ -24,7 +44,6 @@ router.get(
 router.post(
   '/',
   asyncHandler(async (req, res) => {
-    console.log('hello');
     const { venue, date, name } = req.body;
     const show = await Show.createShow({ venue, date, name });
 

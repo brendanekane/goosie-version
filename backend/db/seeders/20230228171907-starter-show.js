@@ -7,7 +7,13 @@ module.exports = {
       [
         {
           venue: 'First Avenue',
+          location: 'Minneapolis, MN',
           date: '2022-02-09',
+        },
+        {
+          venue: 'The Sylvee',
+          location: 'Madison, WI',
+          date: '2022-02-10',
         },
       ],
       {}
@@ -29,7 +35,7 @@ module.exports = {
     return queryInterface.bulkDelete(
       'Shows',
       {
-        date: '2022-02-09',
+        date: { [Op.in]: ['2022-02-09', '2022-02-10'] },
       },
       {}
     );
