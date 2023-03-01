@@ -9,7 +9,14 @@ const Navigation = ({ isLoaded }) => {
   let sessionLinks;
 
   if (sessionUser) {
-    sessionLinks = <ProfileButton />;
+    sessionLinks = (
+      <>
+        <ProfileButton />;
+        <NavLink exact to="/shows">
+          Shows
+        </NavLink>
+      </>
+    );
   } else {
     sessionLinks = (
       <>
@@ -19,6 +26,11 @@ const Navigation = ({ isLoaded }) => {
         <li>
           <NavLink exact to="/signup">
             Signup
+          </NavLink>
+        </li>
+        <li>
+          <NavLink exact to="/shows">
+            Shows
           </NavLink>
         </li>
       </>

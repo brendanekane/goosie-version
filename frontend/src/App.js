@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import LoginFormPage from './components/LoginFormModal';
 import SignupFormPage from './components/SignupFormPage';
+import ShowsIndex from './components/Shows';
+import AddShowForm from './components/AddShowForm';
 import Navigation from './components/Navigation';
 import * as sessionActions from './store/session';
 
@@ -22,8 +24,14 @@ const App = () => {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <h1>Hello from App</h1>
+          </Route>
+          <Route exact path="/shows">
+            <ShowsIndex />
+          </Route>
+          <Route exact path="/new-show">
+            <AddShowForm />
           </Route>
         </Switch>
       )}
