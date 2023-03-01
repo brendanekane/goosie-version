@@ -21,6 +21,18 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'Show',
     }
   );
+
+  Show.createShow = async function ({ venue, date, name }) {
+    try {
+      const show = await Show.create({ venue, date, name });
+      if (show) {
+        return await Show.findByPk(show.id);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   Show.associate = function (models) {
     Show.hasMany(models.Song, {
       foreignKey: 'showId',
