@@ -1,0 +1,19 @@
+.song-list-item {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.vote-container {
+  display: flex;
+  align-items: center;
+}
+
+.vote-sum {
+  font-size: 2.5em;
+  padding: 10px;
+}
+
+.song-title {
+  font-size: 2em;
+  font-weight: bold;
+}
