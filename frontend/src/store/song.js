@@ -22,9 +22,11 @@ export const songSlice = createSlice({
   name: 'song',
   initialState,
   reducers: {
-    // loadSongs: (state, action) => {
-    //   state.songs[action.payload[0].showId] = action.payload;
-    // },
+    loadSongs: (state, action) => {
+      state.data = {};
+      state.data[action.payload[Object.keys(action.payload)[0]].showId] =
+        action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -33,7 +35,9 @@ export const songSlice = createSlice({
       })
       .addCase(fetchSongs.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.data[action.payload[0].showId] = action.payload;
+        state.data = {};
+        state.data[action.payload[Object.keys(action.payload)[0]].showId] =
+          action.payload;
       })
       .addCase(fetchSongs.rejected, (state, action) => {
         state.status = 'failed';
@@ -41,6 +45,8 @@ export const songSlice = createSlice({
       });
   },
 });
+
+export const { loadSongs } = songSlice.actions;
 
 const songReducer = songSlice.reducer;
 

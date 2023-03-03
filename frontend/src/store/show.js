@@ -43,7 +43,13 @@ const initialState = {
 export const showSlice = createSlice({
   name: 'show',
   initialState,
-  reducers: {},
+  reducers: {
+    loadOneShow: (state, action) => {
+      state.status = 'succeded';
+      state.data = {};
+      state.data[action.payload.id] = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOneShow.pending, (state) => {
@@ -51,6 +57,7 @@ export const showSlice = createSlice({
       })
       .addCase(fetchOneShow.fulfilled, (state, action) => {
         state.status = 'succeeded';
+        state.data = {};
         state.data[action.payload.id] = action.payload;
       })
       .addCase(fetchOneShow.rejected, (state, action) => {
@@ -81,6 +88,8 @@ export const showSlice = createSlice({
       });
   },
 });
+
+export const { loadOneShow } = showSlice.actions;
 
 const showReducer = showSlice.reducer;
 
