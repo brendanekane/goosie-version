@@ -1,6 +1,6 @@
 const router = require('express').Router(),
   asyncHandler = require('express-async-handler'),
-  { Show } = require('../../db/models');
+  { Show, Vote } = require('../../db/models');
 
 router.get(
   '/',
@@ -25,13 +25,13 @@ router.get(
   asyncHandler(async (req, res) => {
     const { id } = req.params,
       show = await Show.findByPk(id),
-      songs = await show.getSongs(),
-      votes = await Promise.all(
-        songs.map(async (song) => {
-          const songVotes = await song.getVotes();
-          return songVotes;
-        })
-      );
+      songs = await show.getSongs();
+    votes = await Promise.all(
+      songs.map(async (song) => {
+        const songVotes = await song.getVotes();
+        return songVotes;
+      })
+    );
 
     songs.forEach((song, idx) => {
       song.dataValues.votes = votes[idx];
