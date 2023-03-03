@@ -1,19 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllShows } from '../../store/show';
-import { NavLink, Route, useRouteMatch, Switch } from 'react-router-dom';
-import ShowPage from '../ShowPage';
+import { fetchAllShows } from '../../store/show';
+import { NavLink } from 'react-router-dom';
 
 const ShowsIndex = () => {
   const dispatch = useDispatch(),
-    shows = useSelector((state) => state.shows),
-    { path, url } = useRouteMatch();
-
+    shows = useSelector((state) => state.shows.data);
   useEffect(() => {
-    dispatch(getAllShows());
+    dispatch(fetchAllShows());
   }, [dispatch]);
-
-  console.log(path, url);
 
   if (!shows) return <h1>hi</h1>;
   return (
