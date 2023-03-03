@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSongs } from '../../store/song';
 import { fetchOneShow, loadOneShow } from '../../store/show';
 import { useLocation, useParams } from 'react-router-dom';
-import { loadVotes } from '../../store/vote';
+import { loadVotes, updateVote } from '../../store/vote';
 import './ShowPage.css';
 
 const ShowPage = () => {
@@ -13,7 +13,8 @@ const ShowPage = () => {
     showId = params.id;
   let show = useSelector((state) => state.shows.data[showId]),
     songs = useSelector((state) => state.songs.data)[showId],
-    votes = useSelector((state) => state.votes.data);
+    votes = useSelector((state) => state.votes.data),
+    sessionId = useSelector((state) => state.session.user.id);
 
   useEffect(() => {
     if (location.state && show) {
@@ -39,8 +40,21 @@ const ShowPage = () => {
     return sum;
   };
   // TO DO - be able to update the votes but only if one of the votes belongs to the current user
-  const handleUpvote = () => {};
-  const handleDownvote = () => {};
+  const handleUpvote = (e) => {
+    console.log(sessionId);
+    const songId = parseInt(e.target.dataset.songId);
+    const data = { songId, userId: sessionId, newVote: 1 };
+    dispatch(updateVote(data));
+    // debugger;
+  };
+
+  const handleDownvote = (e) => {
+    console.log(sessionId);
+    const songId = parseInt(e.target.dataset.songId);
+    const data = { songId, userId: sessionId, newVote: -1 };
+    dispatch(updateVote(data));
+    // debugger;
+  };
   const songsHTML = !songs
     ? null
     : Object.keys(songs).map((key) => {
@@ -55,7 +69,10 @@ const ShowPage = () => {
                 </div>
                 <div className="up-downvote-container">
                   <div className="upvote" onClick={handleUpvote}>
-                    <i className="fa-solid fa-chevron-up fa-2xl"></i>
+                    <i
+                      className="fa-solid fa-chevron-up fa-2xl"
+                      data-song-id={song.id}
+                    ></i>
                   </div>
                   <div className="downvote" onClick={handleDownvote}>
                     <i className="fa-solid fa-chevron-down fa-2xl"></i>

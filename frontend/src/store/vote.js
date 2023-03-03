@@ -9,6 +9,19 @@ export const fetchSongVotes = createAsyncThunk('votes/load', async (songId) => {
   }
 });
 
+export const updateVote = createAsyncThunk('votes/update', async (data) => {
+  const response = await csrfFetch(`/api/votes/update`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+
+  debugger;
+  if (response.ok) {
+    const vote = await response.json();
+    return vote;
+  }
+});
+
 const initialState = {
   data: {},
   status: 'idle',
@@ -34,6 +47,18 @@ export const voteSlice = createSlice({
         state.data[action.payload[0].songId] = action.payload;
       })
       .addCase(fetchSongVotes.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(updateVote.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(updateVote.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        // TODO not sure if this is putting updated votes into the store properly
+        state.data[action.payload[0].songId] = action.payload;
+      })
+      .addCase(updateVote.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
