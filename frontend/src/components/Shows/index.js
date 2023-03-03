@@ -17,7 +17,7 @@ const ShowsIndex = () => {
         {Object.keys(shows).map((key) => {
           const show = shows[key];
           return (
-            <li>
+            <li key={show.id}>
               <NavLink
                 exact
                 to={{

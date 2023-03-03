@@ -50,7 +50,6 @@ const ShowPage = () => {
           </li>
         );
       });
-  console.log(show);
   const showPageHTML = !show ? null : (
     <>
       <h1>{show.venue}</h1>

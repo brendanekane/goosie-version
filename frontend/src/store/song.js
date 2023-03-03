@@ -33,7 +33,6 @@ export const songSlice = createSlice({
       })
       .addCase(fetchSongs.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action);
         state.data[action.payload[0].showId] = action.payload;
       })
       .addCase(fetchSongs.rejected, (state, action) => {
