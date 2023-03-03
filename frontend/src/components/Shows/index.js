@@ -5,7 +5,8 @@ import { NavLink } from 'react-router-dom';
 
 const ShowsIndex = () => {
   const dispatch = useDispatch(),
-    shows = useSelector((state) => state.shows.data);
+    shows = useSelector((state) => state.shows.data),
+    songs = useSelector((state) => state.songs.data);
   useEffect(() => {
     dispatch(fetchAllShows());
   }, [dispatch]);
@@ -22,7 +23,7 @@ const ShowsIndex = () => {
                 exact
                 to={{
                   pathname: `/shows/${show.id}`,
-                  state: { show: show },
+                  state: { show: show, songs: songs },
                 }}
               >
                 {show.venue}

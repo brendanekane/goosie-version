@@ -33,11 +33,14 @@ router.get(
       })
     );
 
+    const songsObj = {};
+
     songs.forEach((song, idx) => {
       song.dataValues.votes = votes[idx];
+      songsObj[song.id] = song;
     });
 
-    res.json(songs);
+    res.json(songsObj);
   })
 );
 
