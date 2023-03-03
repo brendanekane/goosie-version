@@ -11,7 +11,7 @@ const Navigation = ({ isLoaded }) => {
   if (sessionUser) {
     sessionLinks = (
       <>
-        <ProfileButton />;
+        <ProfileButton />
         <NavLink exact to="/shows">
           Shows
         </NavLink>

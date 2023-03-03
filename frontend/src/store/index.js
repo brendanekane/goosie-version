@@ -3,13 +3,11 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import showReducer from './show';
 import songReducer from './song';
-import voteReducer from './vote';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   shows: showReducer,
   songs: songReducer,
-  votes: voteReducer,
 });
 
 let enhancer;
