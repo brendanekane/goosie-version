@@ -1,3 +1,5 @@
+const { requireAuth } = require('../../utils/auth');
+
 const router = require('express').Router(),
   asyncHandler = require('express-async-handler'),
   { Vote } = require('../../db/models');
@@ -15,15 +17,23 @@ router.get(
   })
 );
 
+// TODO  not sure if this is updating votes properly
+// TODO uncomment requireAuth to ensure you can only update votes if it is your vote
 router.put(
-  '/:id',
+  '/update',
+  // requireAuth,
   asyncHandler(async (req, res) => {
-    const { id, details } = req.body;
-    const vote = await Vote.update(details, {
-      where: { id },
-      returning: true,
-      plain: true,
-    });
+    // const { id, details } = req.body;
+    const { userId, songId, newVote } = req.body;
+    const vote = await Vote.update(
+      { vote: newVote },
+      {
+        where: { userId, songId },
+        returning: true,
+        plain: true,
+      }
+    );
+    console.log(vote);
     res.json(vote);
   })
 );
