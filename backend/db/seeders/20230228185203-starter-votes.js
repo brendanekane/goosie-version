@@ -36,9 +36,10 @@ module.exports = {
       const song = songs1[i];
       for (let j = 0; j < 8; j++) {
         const vote = randomNumberHelper(-1, 1);
+        const userId = randomNumberHelper(1, 3);
         const newVote = await Vote.create({
           songId: song.id,
-          userId: 1,
+          userId,
           vote: vote,
         });
       }
@@ -48,9 +49,10 @@ module.exports = {
       const song = songs2[i];
       for (let j = 0; j < 8; j++) {
         const vote = randomNumberHelper(-1, 1);
+        const userId = randomNumberHelper(1, 3);
         const newVote = await Vote.create({
           songId: song.id,
-          userId: 1,
+          userId,
           vote: vote,
         });
       }
