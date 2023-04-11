@@ -34,12 +34,11 @@ module.exports = {
 
     for (let i = 0; i < songs1.length; i++) {
       const song = songs1[i];
-      for (let j = 0; j < 8; j++) {
+      for (let j = 0; j < 3; j++) {
         const vote = randomNumberHelper(-1, 1);
-        const userId = randomNumberHelper(1, 3);
         const newVote = await Vote.create({
           songId: song.id,
-          userId,
+          userId: j + 1,
           vote: vote,
         });
       }
@@ -47,12 +46,11 @@ module.exports = {
 
     for (let i = 0; i < songs2.length; i++) {
       const song = songs2[i];
-      for (let j = 0; j < 8; j++) {
+      for (let j = 0; j < 3; j++) {
         const vote = randomNumberHelper(-1, 1);
-        const userId = randomNumberHelper(1, 3);
         const newVote = await Vote.create({
           songId: song.id,
-          userId,
+          userId: j + 1,
           vote: vote,
         });
       }
@@ -74,30 +72,22 @@ module.exports = {
 
     for (let i = 0; i < songs1.length; i++) {
       const song = songs1[i];
-      for (let j = 0; j < songVotes.length; j++) {
-        const vote = songVotes[j].vote;
-        await Vote.destroy({
-          where: {
-            songId: song.id,
-            userId: 1,
-            vote,
-          },
-        });
-      }
+      await Vote.destroy({
+        where: {
+          songId: song.id,
+          userId: [1, 2, 3],
+        },
+      });
     }
 
     for (let i = 0; i < songs2.length; i++) {
       const song = songs2[i];
-      for (let j = 0; j < songVotes.length; j++) {
-        const vote = songVotes[j].vote;
-        await Vote.destroy({
-          where: {
-            songId: song.id,
-            userId: 1,
-            vote,
-          },
-        });
-      }
+      await Vote.destroy({
+        where: {
+          songId: song.id,
+          userId: [1, 2, 3],
+        },
+      });
     }
   },
 };
