@@ -23,17 +23,25 @@ router.put(
   '/update',
   // requireAuth,
   asyncHandler(async (req, res) => {
-    // const { id, details } = req.body;
     const { userId, songId, newVote } = req.body;
-    const vote = await Vote.update(
-      { vote: newVote },
-      {
-        where: { userId, songId },
-        returning: true,
-        plain: true,
-      }
-    );
-    console.log(vote);
+    console.log(userId, songId, newVote);
+    let [vote, created] = await Vote.findOrCreate({
+      where: { userId, songId },
+      defaults: {
+        vote: newVote,
+      },
+    });
+
+    if (!created && vote.vote !== newVote) {
+      vote = await Vote.update(
+        { vote: newVote },
+        {
+          where: { userId, songId },
+          returning: true,
+          plain: true,
+        }
+      );
+    }
     res.json(vote);
   })
 );
