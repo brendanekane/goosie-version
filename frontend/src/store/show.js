@@ -29,7 +29,11 @@ export const fetchAllShows = createAsyncThunk('shows/load_all', async () => {
   const response = await fetch('api/shows');
 
   if (response.ok) {
-    const shows = await response.json();
+    const showsArr = await response.json();
+    const shows = showsArr.reduce(
+      (obj, item) => Object.assign(obj, { [item.id]: item }),
+      {}
+    );
     return shows;
   }
 });
@@ -68,6 +72,7 @@ export const showSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchAllShows.fulfilled, (state, action) => {
+        debugger;
         state.status = 'succeeded';
         state.data = action.payload;
       })
