@@ -14,10 +14,9 @@ export const updateVote = createAsyncThunk('votes/update', async (data) => {
     method: 'PUT',
     body: JSON.stringify(data),
   });
-
-  debugger;
   if (response.ok) {
     const vote = await response.json();
+    // debugger;
     return vote;
   }
 });
@@ -56,7 +55,8 @@ export const voteSlice = createSlice({
       .addCase(updateVote.fulfilled, (state, action) => {
         state.status = 'succeeded';
         // TODO not sure if this is putting updated votes into the store properly
-        state.data[action.payload[0].songId] = action.payload;
+        console.log(action.payload);
+        state.data[action.payload[1].songId].push(action.payload[1]);
       })
       .addCase(updateVote.rejected, (state, action) => {
         state.status = 'failed';

@@ -29,6 +29,7 @@ const ShowPage = () => {
     if (songs) {
       Object.keys(songs).forEach((key) => {
         const song = songs[key];
+
         dispatch(loadVotes(song.votes));
       });
     }
@@ -36,6 +37,7 @@ const ShowPage = () => {
 
   const countVotes = (vote, song) => {
     if (!vote) return '';
+    // debugger;
     const sum = vote.reduce((acc, cur) => (acc += cur.vote), 0);
     return sum;
   };
@@ -51,9 +53,9 @@ const ShowPage = () => {
   const handleDownvote = (e) => {
     console.log(sessionId);
     const songId = parseInt(e.target.dataset.songId);
+    // debugger;
     const data = { songId, userId: sessionId, newVote: -1 };
     dispatch(updateVote(data));
-    // debugger;
   };
   const songsHTML = !songs
     ? null
@@ -75,7 +77,10 @@ const ShowPage = () => {
                     ></i>
                   </div>
                   <div className="downvote" onClick={handleDownvote}>
-                    <i className="fa-solid fa-chevron-down fa-2xl"></i>
+                    <i
+                      className="fa-solid fa-chevron-down fa-2xl"
+                      data-song-id={song.id}
+                    ></i>
                   </div>
                 </div>
               </div>
